@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>마이티 게임 - 로비</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>마이티 게임</h1>
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="menu-button" onclick="showNicknameModal()">
+                    닉네임 설정
+                </div>
+                <div class="menu-button" onclick="showCreateRoomModal()">
+                    방 생성 UI
+                </div>
+            </div>
+            <div class="right-panel">
+                <h2>방 리스트</h2>
+                <div id="room-list">
+                    <!-- 방 목록이 여기에 동적으로 추가됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 닉네임 설정 모달 -->
+    <div id="nickname-modal" class="modal">
+        <div class="modal-content">
+            <h2>닉네임 설정</h2>
+            <input type="text" id="username" placeholder="닉네임을 입력하세요">
+            <button onclick="setNickname()">확인</button>
+        </div>
+    </div>
+
+    <!-- 방 생성 모달 -->
+    <div id="create-room-modal" class="modal">
+        <div class="modal-content">
+            <h2>방 만들기</h2>
+            <input type="text" id="room-name" placeholder="방 이름을 입력하세요">
+            <button onclick="createRoom()">방 만들기</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/lobby.js') }}"></script>
+</body>
+</html> 

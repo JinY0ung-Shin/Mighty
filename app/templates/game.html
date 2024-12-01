@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>마이티 게임</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+</head>
+<body>
+    <div class="game-table">
+        <!-- 중앙 카드 놓는 공간 -->
+        <div class="center-area">
+            <div class="center-text"></div>
+        </div>
+
+        <!-- 플레이어 영역 -->
+        <div class="player-area player-bottom">
+            <div class="player-name">대기중...</div>
+            <div class="cards-container"></div>
+        </div>
+        
+        <div class="player-area player-left">
+            <div class="player-name">대기중...</div>
+            <div class="cards-container" id="left"></div>
+        </div>
+        
+        <div class="player-area player-top-left">
+            <div class="player-name">대기중...</div>
+            <div class="cards-container" id="top-left"></div>
+        </div>
+        
+        <div class="player-area player-top-right">
+            <div class="player-name">대기중...</div>
+            <div class="cards-container" id="top-right"></div>
+        </div>
+        
+        <div class="player-area player-right">
+            <div class="player-name">대기중...</div>
+            <div class="cards-container" id="right"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        // 서버에서 전달받은 방 ID를 전역 변수로 설정
+        const ROOM_ID = '{{ room.room_id }}';
+    </script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script>
+        // 게임 UI 초기화
+        const gameUI = new GameUI();
+    </script>
+</body>
+</html>

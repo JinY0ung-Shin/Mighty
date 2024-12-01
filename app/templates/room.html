@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>마이티 게임 - 대기실</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>대기실 - {{ room_id }}</h1>
+        <div class="players-list">
+            <h2>참가자 목록</h2>
+            <ul id="players">
+                {% for player_name in players %}
+                <li>
+                    {{ player_name }}
+                    {% if player_name in ready_players %}
+                    <span class="ready">준비완료</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button id="ready-btn" onclick="toggleReady()">준비하기</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/room.js') }}"></script>
+</body>
+</html> 
