@@ -482,6 +482,7 @@ def handle_submit_friend(data):
 
     print_game_status(room.game)
 
+
 @socketio.on("submit_card")
 def handle_submit_card(data):
     print(f"[Submit Card] 카드 제출 요청 수신 - data: {data}")
@@ -494,7 +495,7 @@ def handle_submit_card(data):
     if not room or not room.game:
         emit("error_message", {"message": "게임을 찾을 수 없습니다"})
         return
-    
+
     suit_map = {
         "♠": Suit.SPADE,
         "♦": Suit.DIAMOND,
@@ -513,16 +514,33 @@ def handle_submit_card(data):
     if not current_player:
         emit("error_message", {"message": "플레이어를 찾을 수 없습니다"})
         return
-    
+
     if room.game.phase != "playing":
-        emit("error_message", {"message": "현재 페이즈에서는 카드를 제출할 수 없습니다"})
+        emit(
+            "error_message", {"message": "현재 페이즈에서는 카드를 제출할 수 없습니다"}
+        )
         return
-    
+
     if room.game.current_player_idx != room.players.index(current_player):
         emit("error_message", {"message": "현재 플레이어가 아닙니다"})
         return
-    
-    if room.game.play_card(room.players.index(current_player), Card(suit_map[suit], rank), None, False):
-        emit("card_submitted", {"player_name": current_player.name, "suit": suit, "rank": rank}, room=room_id)
+
+    if room.game.play_card(
+        room.players.index(current_player), Card(suit_map[suit], rank), None, False
+    ):
+        emit(
+            "card_submitted",
+            {"player_name": current_player.name, "suit": suit, "rank": rank},
+            room=room_id,
+        )
     else:
         emit("error_message", {"message": "잘못된 카드입니다"})
+
+    # 트릭이 끝났는지 확인
+    if len(room.game.current_trick) == 0:
+        print("\n=== 트릭 종료 ===")
+        socketio.emit(
+            "clear_trick", 
+            {"winner_name": room.game.players[room.game.current_player_idx].name}, 
+            room=room_id
+        )

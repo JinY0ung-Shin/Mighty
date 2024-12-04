@@ -152,14 +152,17 @@ class MightyGame:
         else:
             # 점수 범위 체크 (MIN_BID~20)
             if score < MIN_BID or score > 20:
+                print("13 이상 20 이하의 점수를 공약해야 하여야 합니다.")
                 return False
 
             # 이전 공약보다 높아야 함
             if self.current_bid and score <= self.current_bid.score:
+                print("이전 공약보다 높은 점수를 공약해야 하여야 합니다.")
                 return False
 
             # suit는 반드시 선택해야 함
             if suit is None:
+                # 노기루 나중에 구현
                 return False
 
             # 새로운 비드 생성
@@ -176,7 +179,10 @@ class MightyGame:
                 self.current_player_idx = player_idx
                 return True
         # 다음 플레이어로 턴 넘기기
-        self.current_player_idx = (self.current_player_idx + 1) % 5
+        while True:
+            self.current_player_idx = (self.current_player_idx + 1) % 5
+            if self.current_player_idx not in self.passed_players:
+                break
         return True
 
     def get_bid_state(self) -> Dict:

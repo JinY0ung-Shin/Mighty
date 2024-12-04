@@ -13,6 +13,67 @@
 
 .card.selected {
     transform: translateY(-10px);
+}.obtained-cards-bottom,
+.obtained-cards-left,
+.obtained-cards-top-left,
+.obtained-cards-top-right,
+.obtained-cards-right {
+    position: absolute;
+    display: flex;
+    gap: 5px;
+    min-height: 90px;
+    min-width: 60px;
+}
+
+.obtained-cards-bottom {
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.obtained-cards-left {
+    left: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.obtained-cards-top-left {
+    top: 100px;
+    left: 25%;
+    transform: translateX(-50%);
+}
+
+.obtained-cards-top-right {
+    top: 100px;
+    right: 25%;
+    transform: translateX(50%);
+}
+
+.obtained-cards-right {
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 획득한 카드들의 스타일 */
+.obtained-cards-bottom .card,
+.obtained-cards-left .card,
+.obtained-cards-top-left .card,
+.obtained-cards-top-right .card,
+.obtained-cards-right .card {
+    width: 40px;  /* 획득한 카드는 좀 더 작게 표시 */
+    height: 60px;
+    opacity: 0.8;  /* 약간 투명하게 */
+    transform: none;  /* hover 효과 제거 */
+    pointer-events: none;  /* 클릭 불가능하게 */
+}
+
+.obtained-cards-bottom .card:hover,
+.obtained-cards-left .card:hover,
+.obtained-cards-top-left .card:hover,
+.obtained-cards-top-right .card:hover,
+.obtained-cards-right .card:hover {
+    transform: none;  /* hover 시 움직임 효과 제거 */
 }
 
 .discard-message {

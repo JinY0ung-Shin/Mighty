@@ -67,6 +67,11 @@ class GameUI {
         this.socket.on('card_submitted', (data) => {
             this.handleCardSubmitted(data);
         });
+
+        this.socket.on('clear_trick'), (data) => {
+            console.log('clear trick');
+            this.handleClearTrick(data);
+        };
     }
 
     joinRoom(roomId) {
@@ -753,5 +758,36 @@ class GameUI {
                 console.log("[handleCardSubmitted] 플레이어 위치를 찾을 수 없음");
             }
         }
-    }   
+    }
+    handleClearTrick(data) {
+        console.log("[handleClearTrick] 플레이어의 카드 제거 완료");
+        const winnerName = data.winner_name;
+        console.log("[handleClearTrick] 승리 플레이어:", winnerName);
+
+        const centerArea = document.querySelector('.center-area');
+        const centerAreaCards = centerArea.querySelectorAll('.card');
+        
+        const winnerElement = Array.from(document.querySelectorAll('.player-area .player-name')).find(el => el.innerHTML.trim() === winnerName);
+        const obtainedCardsElement = winnerElement.querySelector('[class^="obtained-cards"]');
+
+        if (obtainedCardsElement) {
+            // centerAreaCards 중 data-rank가 10 이상인 카드를 obainedCardsElement에 추가
+            centerAreaCards.forEach(card => {
+                const rank = parseInt(card.dataset.rank) || 0;
+                if (rank >= 10) {
+                    const cardClone = card.cloneNode(true);
+                    obtainedCardsElement.appendChild(cardClone);
+                }
+                card.remove();
+             });
+        }
+        
+
+        if (winnerElement) {
+            const cardsContainer = winnerElement.closest('.player-area').querySelector('.cards-container');
+            if (cardsContainer) {
+                cardsContainer.innerHTML = '';
+            }
+        }
+    }
 }
