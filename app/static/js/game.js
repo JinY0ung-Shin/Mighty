@@ -68,10 +68,10 @@ class GameUI {
             this.handleCardSubmitted(data);
         });
 
-        this.socket.on('clear_trick'), (data) => {
+        this.socket.on('clear_trick', (data) => {
             console.log('clear trick');
             this.handleClearTrick(data);
-        };
+        });
     }
 
     joinRoom(roomId) {
@@ -743,6 +743,8 @@ class GameUI {
                     console.log("[handleCardSubmitted] 중앙 영역:", centerArea);
                     const cardCopy = document.createElement('div');
                     cardCopy.className = 'card';
+                    cardCopy.dataset.suit = suit;
+                    cardCopy.dataset.rank = rank;
                     const cardFileName = this.getCardFileName({suit, rank});
                     console.log("[handleCardSubmitted] 카드 파일명:", cardFileName);
                     cardCopy.style.backgroundImage = `url('/static/svg-cards/${cardFileName}')`;
@@ -767,12 +769,14 @@ class GameUI {
         const centerArea = document.querySelector('.center-area');
         const centerAreaCards = centerArea.querySelectorAll('.card');
         
-        const winnerElement = Array.from(document.querySelectorAll('.player-area .player-name')).find(el => el.innerHTML.trim() === winnerName);
-        const obtainedCardsElement = winnerElement.querySelector('[class^="obtained-cards"]');
+        const winnerElement = Array.from(document.querySelectorAll('.player-area .player-name')).find(el => el.innerHTML.trim().startsWith(winnerName));
+        const obtainedCardsElement = winnerElement.closest('.player-area').querySelector('[class^="obtained-cards"]');
+
 
         if (obtainedCardsElement) {
             // centerAreaCards 중 data-rank가 10 이상인 카드를 obainedCardsElement에 추가
             centerAreaCards.forEach(card => {
+                console.log(card);
                 const rank = parseInt(card.dataset.rank) || 0;
                 if (rank >= 10) {
                     const cardClone = card.cloneNode(true);
@@ -780,14 +784,6 @@ class GameUI {
                 }
                 card.remove();
              });
-        }
-        
-
-        if (winnerElement) {
-            const cardsContainer = winnerElement.closest('.player-area').querySelector('.cards-container');
-            if (cardsContainer) {
-                cardsContainer.innerHTML = '';
-            }
         }
     }
 }

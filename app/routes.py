@@ -539,7 +539,8 @@ def handle_submit_card(data):
     # 트릭이 끝났는지 확인
     if len(room.game.current_trick) == 0:
         print("\n=== 트릭 종료 ===")
-        socketio.emit(
+        print( room.game.players[room.game.current_player_idx])
+        emit(
             "clear_trick", 
             {"winner_name": room.game.players[room.game.current_player_idx].name}, 
             room=room_id
